@@ -5,7 +5,8 @@ public enum E_CharactorState
     Jump,
     Dash,
     Climb,
-    Die
+    Die,
+    WallSlide
 }
 public enum GameState
 {

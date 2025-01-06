@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class JumpState : PlayerAirState
 {
+    
     public JumpState(Player _player, PlayerStateMachine _playerSM, PlayerData _playerData, E_CharactorState _playerState) : base(_player, _playerSM, _playerData, _playerState)
     {
 
     }
-
     public override void Enter()
     {
         base.Enter();
-        //player.rb.AddForce(new Vector2(player.rb.velocity.x, playerData.jumpForce));
         player.SetVelocity(player.rb.velocity.x, playerData.jumpForce);
+        player.SetJumpCount(player.jumpCount-1);
+        Debug.Log("Jump + " + player.jumpCount);
     }
 
     public override void Exit()

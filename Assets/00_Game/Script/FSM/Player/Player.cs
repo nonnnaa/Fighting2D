@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public JumpState jumpState { get; private set; }
     public FallState fallState { get; private set; }
     public DashState dashState { get; private set; }
+    public WallSlideState wallSlideState { get; private set; }
     #endregion
 
     #region Transform collision check
@@ -32,8 +33,8 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb { get; private set; }
     public bool isFacingLeft { get; private set; }
     public float directionX { get; private set; }
-
     public float dashTimer {  get; private set; }
+    public int jumpCount {get; private set; }
     private void Awake()
     {
         playerStateMachine = new PlayerStateMachine();
@@ -46,9 +47,7 @@ public class Player : MonoBehaviour
         runState = new RunState(this, playerStateMachine,playerData, E_CharactorState.Run);
         jumpState = new JumpState(this, playerStateMachine, playerData, E_CharactorState.Jump);
         dashState = new DashState(this, playerStateMachine, playerData, E_CharactorState.Dash);
-
-
-
+        wallSlideState = new WallSlideState(this, playerStateMachine, playerData, E_CharactorState.WallSlide); 
 
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -61,6 +60,7 @@ public class Player : MonoBehaviour
     {
         playerStateMachine.InitState(idleState);
         directionX = 1;
+        jumpCount = playerData.jumpCount;
     }
     private void FixedUpdate()
     {
@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
     {
         dashTimer -= Time.deltaTime;
         playerStateMachine.currentState.UpdateLogics();
+        Debug.Log(isTouchingWall());
     }
 
 
@@ -86,6 +87,7 @@ public class Player : MonoBehaviour
         directionX *= -1;
     }
     public void ResetDashTimer() => dashTimer = playerData.dashCooldown;
+    public void SetJumpCount(int number) => jumpCount = number;
     #endregion
 
 
@@ -94,7 +96,7 @@ public class Player : MonoBehaviour
     {
         Gizmos.DrawWireSphere(groundCheck.position, playerData.groundCheckDistance);
         Gizmos.DrawLine(wallCheck.position,
-            new Vector3(wallCheck.position.x + playerData.wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
+            new Vector3(wallCheck.position.x + playerData.wallCheckDistance * directionX, wallCheck.position.y, wallCheck.position.z));
     }
     public bool isGrounded() => Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckDistance, groundMask);
 

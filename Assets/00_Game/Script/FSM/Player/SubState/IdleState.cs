@@ -10,7 +10,7 @@ public class IdleState : PlayerGroundedState
     {
         base.Enter();
         //Debug.Log("Enter Idle State");
-        player.SetVelocity(0, 0);
+        player.SetVelocity(player.inputHandler.movementInput.x * playerData.speedRun, 0);
     }
 
     public override void Exit()

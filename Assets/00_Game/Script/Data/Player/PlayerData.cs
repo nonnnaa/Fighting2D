@@ -8,7 +8,14 @@ public class PlayerData : ScriptableObject
     public string playerName;
     public float hp;
     public float speedRun;
+
+    [Header("WallSlide")]
+    [Range(0, 1)] public float slideRatio;
+
+
+    [Header("Jump")]
     public float jumpForce;
+    public int jumpCount;
 
     [Header("Dash info")]
     public float dashTime;

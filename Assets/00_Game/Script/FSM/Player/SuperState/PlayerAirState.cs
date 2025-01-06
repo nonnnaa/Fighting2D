@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAirState : PlayerState
 {
+    
     public PlayerAirState(Player _player, PlayerStateMachine _playerSM, PlayerData _playerData, E_CharactorState _playerState) : base(_player, _playerSM, _playerData, _playerState)
     {
     }
@@ -29,6 +30,10 @@ public class PlayerAirState : PlayerState
                 playerSM.ChangeState(player.runState);
             }else 
                 playerSM.ChangeState(player.idleState);
+        }
+        if(player.isTouchingWall())
+        {
+            playerSM.ChangeState(player.wallSlideState);
         }
     }
 

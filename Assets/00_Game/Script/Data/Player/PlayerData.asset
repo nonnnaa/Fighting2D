@@ -15,9 +15,11 @@ MonoBehaviour:
   playerName: Main
   hp: 10
   speedRun: 5
-  jumpForce: 12
+  slideRatio: 0.7
+  jumpForce: 20
+  jumpCount: 2
   dashTime: 0.25
   dashSpeed: 20
   dashCooldown: 5
-  groundCheckDistance: 0.3
-  wallCheckDistance: 0.4
+  groundCheckDistance: 0.2
+  wallCheckDistance: 0.35

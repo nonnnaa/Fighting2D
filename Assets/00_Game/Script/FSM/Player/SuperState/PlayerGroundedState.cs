@@ -23,11 +23,11 @@ public class PlayerGroundedState : PlayerState
         base.UpdateLogics();
         if(!player.isGrounded()) playerSM.ChangeState(player.airState);
 
-
-        if (player.inputHandler.isJump && player.isGrounded())
+        if ((player.inputHandler.isJump && player.isGrounded()))
         {
             playerSM.ChangeState(player.jumpState);
         }
+        if (player.jumpCount < 0) player.SetJumpCount(playerData.jumpCount);
     }
 
     public override void UpdatePhysics()
