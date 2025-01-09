@@ -13,8 +13,9 @@ public class JumpState : PlayerAirState
     {
         base.Enter();
         player.SetVelocity(player.rb.velocity.x, playerData.jumpForce);
-        player.SetJumpCount(player.jumpCount-1);
-        Debug.Log("Jump + " + player.jumpCount);
+        //Debug.Log("JUMPING " + player.jumpCount);
+        //player.SetJumpCount(player.jumpCount-1);
+        
     }
 
     public override void Exit()
@@ -30,5 +31,9 @@ public class JumpState : PlayerAirState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
+        if(player.rb.velocity.y < 0)
+        {
+            playerSM.ChangeState(player.airState);
+        }
     }
 }

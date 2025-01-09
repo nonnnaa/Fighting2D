@@ -16,10 +16,12 @@ MonoBehaviour:
   hp: 10
   speedRun: 5
   slideRatio: 0.7
-  jumpForce: 20
-  jumpCount: 2
+  jumpForce: 15
+  jumpCount: 1
+  wallJumpForceX: 5
+  fallRatioVelocityX: 0.8
   dashTime: 0.25
   dashSpeed: 20
-  dashCooldown: 5
-  groundCheckDistance: 0.2
-  wallCheckDistance: 0.35
+  dashCooldown: 3
+  groundCheckDistance: 0.15
+  wallCheckDistance: 0.4

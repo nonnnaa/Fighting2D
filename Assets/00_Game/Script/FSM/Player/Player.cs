@@ -6,15 +6,16 @@ public class Player : MonoBehaviour
 {
     #region Animation
     public Animator animator {  get; private set; } // Must have in Children
-    public PlayerStateMachine playerStateMachine { get; private set; }
+    public PlayerStateMachine playerSM{ get; private set; }
     public PlayerAirState airState { get; private set; }
     public PlayerGroundedState groundedState { get; private set; }
     public IdleState idleState { get; private set; }
     public RunState runState { get; private set; }
     public JumpState jumpState { get; private set; }
-    public FallState fallState { get; private set; }
     public DashState dashState { get; private set; }
     public WallSlideState wallSlideState { get; private set; }
+
+    public WallJumpState wallJumpState { get; private set; }
     #endregion
 
     #region Transform collision check
@@ -37,40 +38,40 @@ public class Player : MonoBehaviour
     public int jumpCount {get; private set; }
     private void Awake()
     {
-        playerStateMachine = new PlayerStateMachine();
+        playerSM = new PlayerStateMachine();
         // Parrent state
-        airState = new PlayerAirState(this, playerStateMachine, playerData, E_CharactorState.Jump);
-        groundedState = new PlayerGroundedState(this, playerStateMachine, playerData, E_CharactorState.Idle);
+        airState = new PlayerAirState(this, playerSM, playerData, E_CharactorState.Jump);
+        groundedState = new PlayerGroundedState(this, playerSM, playerData, E_CharactorState.Idle);
 
         // Sub state
-        idleState = new IdleState(this, playerStateMachine, playerData, E_CharactorState.Idle);
-        runState = new RunState(this, playerStateMachine,playerData, E_CharactorState.Run);
-        jumpState = new JumpState(this, playerStateMachine, playerData, E_CharactorState.Jump);
-        dashState = new DashState(this, playerStateMachine, playerData, E_CharactorState.Dash);
-        wallSlideState = new WallSlideState(this, playerStateMachine, playerData, E_CharactorState.WallSlide); 
+        idleState = new IdleState(this, playerSM, playerData, E_CharactorState.Idle);
+        runState = new RunState(this, playerSM, playerData, E_CharactorState.Run);
+        jumpState = new JumpState(this, playerSM, playerData, E_CharactorState.Jump);
+        dashState = new DashState(this, playerSM, playerData, E_CharactorState.Dash);
+        wallSlideState = new WallSlideState(this, playerSM, playerData, E_CharactorState.WallSlide);
+        wallJumpState = new WallJumpState(this, playerSM, playerData, E_CharactorState.Jump);
 
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        inputHandler = GetComponent<PlayerInputHandler>();
-        
+        inputHandler = GetComponent<PlayerInputHandler>(); 
     }
 
 
     void Start()
     {
-        playerStateMachine.InitState(idleState);
+        playerSM.InitState(idleState);
         directionX = 1;
         jumpCount = playerData.jumpCount;
     }
     private void FixedUpdate()
     {
-        playerStateMachine.currentState.UpdatePhysics();
+        playerSM.currentState.UpdatePhysics();
     }
 
     void Update()
     {
         dashTimer -= Time.deltaTime;
-        playerStateMachine.currentState.UpdateLogics();
+        playerSM.currentState.UpdateLogics();
         Debug.Log(isTouchingWall());
     }
 
@@ -84,7 +85,7 @@ public class Player : MonoBehaviour
     {
         isFacingLeft = !isFacingLeft;
         transform.Rotate(0, 180, 0);
-        directionX *= -1;
+        directionX = - directionX;
     }
     public void ResetDashTimer() => dashTimer = playerData.dashCooldown;
     public void SetJumpCount(int number) => jumpCount = number;

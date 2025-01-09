@@ -9,21 +9,18 @@ public class IdleState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        //Debug.Log("Enter Idle State");
-        player.SetVelocity(player.inputHandler.movementInput.x * playerData.speedRun, 0);
+        player.SetVelocity(0, 0);
     }
 
     public override void Exit()
     {
         base.Exit();
-        //Debug.Log("Exit Idle State");
     }
 
     public override void UpdateLogics()
     {
         base.UpdateLogics();
-        //Debug.Log("Update Logics Idle State");
-        if (player.inputHandler.movementInput.x != 0)
+        if(player.inputHandler.movementInput.x != 0 && player.isGrounded())
         {
             playerSM.ChangeState(player.runState);
         }
@@ -32,6 +29,5 @@ public class IdleState : PlayerGroundedState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        //Debug.Log("Update Physics Idle State");
     }
 }

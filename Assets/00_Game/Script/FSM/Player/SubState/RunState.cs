@@ -20,7 +20,7 @@ public class RunState : PlayerGroundedState
     public override void UpdateLogics()
     {
         base.UpdateLogics();
-        if (player.inputHandler.movementInput.x == 0)
+        if(player.inputHandler.movementInput.x == 0)
         {
             playerSM.ChangeState(player.idleState);
         }
@@ -29,6 +29,6 @@ public class RunState : PlayerGroundedState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        player.SetVelocity(player.inputHandler.movementInput.x * playerData.speedRun, player.rb.velocity.y);
+        player.SetVelocity(playerData.speedRun * player.inputHandler.movementInput.x, player.rb.velocity.y);
     }
 }

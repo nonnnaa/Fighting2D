@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class PlayerState {
@@ -9,8 +10,6 @@ public class PlayerState {
     protected PlayerData playerData;
     private E_CharactorState playerEState;
 
-
-    
     public PlayerState(Player _player, PlayerStateMachine _playerSM, PlayerData _playerData, E_CharactorState _playerState)
     {
         player = _player;
@@ -31,8 +30,11 @@ public class PlayerState {
 
         if (player.inputHandler.isDash && player.dashTimer < 0f)
         {
+            
             player.ResetDashTimer();
+            if (playerSM.currentState == player.wallSlideState) player.Flip();
             playerSM.ChangeState(player.dashState);
+
         }
     }
     public virtual void UpdatePhysics()

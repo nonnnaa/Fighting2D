@@ -24,7 +24,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         movementInput = context.ReadValue<Vector2>();
     }
-    public void OnLeftMouse(InputAction.CallbackContext context)
+    public void OnRightMouse(InputAction.CallbackContext context)
     {
         if (context.started)
         {

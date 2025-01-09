@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerData", menuName = "Data/PlayerData")]
@@ -16,6 +15,8 @@ public class PlayerData : ScriptableObject
     [Header("Jump")]
     public float jumpForce;
     public int jumpCount;
+    public float wallJumpForceX;
+    public float fallRatioVelocityX;
 
     [Header("Dash info")]
     public float dashTime;

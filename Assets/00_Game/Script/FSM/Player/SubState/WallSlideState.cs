@@ -21,20 +21,25 @@ public class WallSlideState : PlayerState
     public override void UpdateLogics()
     {
         base.UpdateLogics();
-        if((player.inputHandler.movementInput.x != 0 && 
-            player.directionX * player.inputHandler.movementInput.x > 0) || player.isGrounded())
+        if(player.isGrounded())
         {
             playerSM.ChangeState(player.idleState);
         }
+        if(player.inputHandler.isJump)
+        {
+            playerSM.ChangeState(player.wallJumpState);
+            return;
+        }
+        if(!player.isTouchingWall())
+        {
+            playerSM.ChangeState(player.airState);
+        }
+
     }
 
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        if(player.inputHandler.movementInput.y < 0)
-        {
-            player.SetVelocity(player.inputHandler.movementInput.x * playerData.speedRun, player.rb.velocity.y);
-        }
-        else player.rb.velocity = new Vector2(player.inputHandler.movementInput.x * playerData.speedRun, player.rb.velocity.y * playerData.slideRatio);
+        player.SetVelocity(0, playerData.slideRatio * player.rb.velocity.y);
     }
 }

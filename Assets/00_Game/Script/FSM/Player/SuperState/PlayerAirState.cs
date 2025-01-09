@@ -23,14 +23,11 @@ public class PlayerAirState : PlayerState
     public override void UpdateLogics()
     {
         base.UpdateLogics();
-        if (player.rb.velocity.y == 0)
+        if(player.rb.velocity.y == 0 && player.isGrounded())
         {
-            if(player.rb.velocity.x != 0)
-            {
-                playerSM.ChangeState(player.runState);
-            }else 
-                playerSM.ChangeState(player.idleState);
+            playerSM.ChangeState(player.idleState);
         }
+
         if(player.isTouchingWall())
         {
             playerSM.ChangeState(player.wallSlideState);
@@ -40,6 +37,10 @@ public class PlayerAirState : PlayerState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        
+        if (player.inputHandler.movementInput.x != 0)
+        {
+            player.SetVelocity(playerData.fallRatioVelocityX * player.inputHandler.movementInput.x * playerData.speedRun, player.rb.velocity.y);
+        }
+
     }
 }
