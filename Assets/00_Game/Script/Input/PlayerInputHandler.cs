@@ -3,12 +3,10 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     public Vector2 movementInput;
-    public bool isJump;
-    public bool isDash;
-    private void Start()
-    {
-        
-    }
+    public bool isJump {  get; private set; }
+    public bool isDash {  get; private set; }
+    public bool isAttack {  get; private set; }
+
     public void OnJumpInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -35,4 +33,16 @@ public class PlayerInputHandler : MonoBehaviour
             isDash = false;
         }
     }
+    public void OnLeftMouse(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            isAttack = true;
+        }
+        if(context.canceled)
+        {
+            isAttack= false;
+        }
+    }
+
 }

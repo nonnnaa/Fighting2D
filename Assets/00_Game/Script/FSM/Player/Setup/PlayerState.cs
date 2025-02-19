@@ -7,10 +7,11 @@ public class PlayerState {
 
     protected Player player;
     protected PlayerStateMachine playerSM;
-    protected PlayerData playerData;
+    protected EntityData playerData;
+    protected bool endAnimTrigger;
     private E_CharactorState playerEState;
-
-    public PlayerState(Player _player, PlayerStateMachine _playerSM, PlayerData _playerData, E_CharactorState _playerState)
+    
+    public PlayerState(Player _player, PlayerStateMachine _playerSM, EntityData _playerData, E_CharactorState _playerState)
     {
         player = _player;
         playerSM = _playerSM;
@@ -20,6 +21,7 @@ public class PlayerState {
     public virtual void Enter()
     {
         player.animator.SetBool(playerEState.ToString(), true);
+        endAnimTrigger = false;
     }
     public virtual void UpdateLogics()
     {
@@ -27,14 +29,10 @@ public class PlayerState {
 
         if ((player.isFacingLeft && player.inputHandler.movementInput.x > 0) ||
         (!player.isFacingLeft && player.inputHandler.movementInput.x < 0)) player.Flip();
-
         if (player.inputHandler.isDash && player.dashTimer < 0f)
         {
-            
             player.ResetDashTimer();
-            if (playerSM.currentState == player.wallSlideState) player.Flip();
             playerSM.ChangeState(player.dashState);
-
         }
     }
     public virtual void UpdatePhysics()
@@ -45,4 +43,6 @@ public class PlayerState {
     {
         player.animator.SetBool(playerEState.ToString(), false);
     }
+
+    public virtual void EndAnimationTrigger() => endAnimTrigger = true;
 }

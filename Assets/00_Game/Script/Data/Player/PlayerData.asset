@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca07d71529791742b4071037f9ab890, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  playerName: Main
+  entityName: 
   hp: 10
   speedRun: 5
   slideRatio: 0.7
@@ -22,6 +22,6 @@ MonoBehaviour:
   fallRatioVelocityX: 0.8
   dashTime: 0.25
   dashSpeed: 20
-  dashCooldown: 3
+  dashCooldown: 2
   groundCheckDistance: 0.15
   wallCheckDistance: 0.4

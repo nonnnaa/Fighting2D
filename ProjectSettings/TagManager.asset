@@ -11,8 +11,8 @@ TagManager:
   - groundMask
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 
@@ -43,4 +43,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3839396885
+    locked: 0
+  - name: Enemy
+    uniqueID: 1082919389
     locked: 0
