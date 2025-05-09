@@ -30,6 +30,5 @@ public class DashState : PlayerState
     {
         base.UpdatePhysics();
         player.SetVelocity(playerData.dashSpeed * player.directionX, 0);
-        Debug.Log("Dashing");
     }
 }

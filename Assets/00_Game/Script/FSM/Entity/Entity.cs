@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
@@ -8,24 +9,28 @@ public class Entity : MonoBehaviour
     protected Transform wallCheck;
     [SerializeField]
     private Transform groundCheck;
+    //[SerializeField]
+    public Transform attackCheck;
     [SerializeField]
     private LayerMask groundMask;
     #endregion
+
+    private EntityFX fx;
 
     #region Direction
     public bool isFacingLeft { get; private set; }
     public float directionX { get; private set; } = 1;
     #endregion
 
-
     private RaycastHit2D[] hits = new RaycastHit2D[1];
-
-    [SerializeField] 
+    [SerializeField]
     protected EntityData data;
     public Rigidbody2D rb { get; private set; }
     public Animator animator { get; private set; }
 
     public float dashTimer; //{  get; private set; }
+    public bool isKnockedBack {  get; private set; }
+    public EntityData getData() => data;
 
     #region Unity Lifecycle Methods
     protected virtual void Awake()
@@ -37,6 +42,7 @@ public class Entity : MonoBehaviour
     protected virtual void Start()
     {
         directionX = 1;
+        fx = GetComponentInChildren<EntityFX>();
     }
     protected virtual void FixedUpdate()
     {
@@ -52,6 +58,7 @@ public class Entity : MonoBehaviour
     #region Function Update Variables
     public void SetVelocity(float _x, float _y)
     {
+        if (isKnockedBack) return;
         rb.velocity = new Vector2(_x, _y);
     }
     public void Flip()
@@ -77,6 +84,8 @@ public class Entity : MonoBehaviour
 
         Gizmos.DrawLine(wallCheck.position,
         new Vector3(wallCheck.position.x + data.distanceToAttack * directionX, wallCheck.position.y, wallCheck.position.z));
+        Gizmos.DrawWireSphere(attackCheck.position, data.attackCheckRadius);
+
     }
     //public bool isGrounded() => Physics2D.OverlapCircle(groundCheck.position, data.groundCheckDistance, groundMask);
     public bool isGrounded() => Physics2D.Raycast(groundCheck.position, transform.up * -1, data.groundCheckDistance, groundMask);
@@ -88,4 +97,20 @@ public class Entity : MonoBehaviour
     //    return hitCount > 0;
     //}
     #endregion
+
+    public virtual void Damage()
+    {
+        fx.StartCoroutine("OnHitFx");
+        Debug.Log("Enemy get Damage");
+        StartCoroutine("HitKnockBack");
+    }
+
+    protected virtual IEnumerator HitKnockBack()
+    {
+        Debug.Log("Start courotine");
+        isKnockedBack = true;
+        rb.velocity = new Vector2(data.knockBackDirection.x * -directionX, data.knockBackDirection.y);
+        yield return new WaitForSeconds(data.knockBackDuration);
+        isKnockedBack = false;
+    }
 }

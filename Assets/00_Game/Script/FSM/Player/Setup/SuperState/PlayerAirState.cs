@@ -41,7 +41,6 @@ public class PlayerAirState : PlayerState
         {
             player.SetVelocity(playerData.fallRatioVelocityX * player.inputHandler.movementInput.x * playerData.speedRun, player.rb.velocity.y);
         }
-        //player.SetVelocity(player.rb.velocity.x, player.rb.velocity.y);
 
     }
 }

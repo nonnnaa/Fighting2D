@@ -27,8 +27,13 @@ public class EntityData : ScriptableObject
     public float groundCheckDistance;
     public float wallCheckDistance;
 
-
     [Header("Attack Infor")]
     public float distanceToAttack;
     public float attackCoolDown;
+    public float attackCheckRadius;
+
+    [Header("Knock back infor")]
+    public float knockBackDuration;
+    public Vector2 knockBackDirection;
+
 }
